@@ -15,23 +15,60 @@ function getDogs() {
     fetch("http://localhost:3000/api/v1/dogs")
     .then(resp => resp.json())
     .then(data => {
-        let dogsList = document.getElementById("dogs-list")
+        renderDogsHtml(data)
+        addDogsClickListeners()
 
-        data.forEach((dog) => {
-            let d = new Dog(dog)
-            dogsList.innerHTML += renderDogsListHtml(d)
-        });
-        debugger
     })
 }
 
-function renderDogsListHtml(dog) {
-    return `<div class="card" data-dog-id="${dog.id}">
-    <strong>${dog.name}</strong>
-    <p>Age: ${dog.age} years young</p>
-    <p>Sex: ${dog.sex} </p>
-    
-    </div>`
+function getDog(id) {
+    fetch(`http://localhost:3000/api/v1/dogs/${id}`)
+    .then(resp => resp.json())
+    .then(data => {
+        console.log(data)
+        renderDogHtml(data)
+
+    })
 }
 
+function showMoreInfo() {
+    let dogId = parseInt(this.parentElement.dataset.dogId)
+    getDog(dogId)
+
+}
+
+function addDogsClickListeners() {
+     document.querySelectorAll('.dog-name').forEach(element => {
+        element.addEventListener("click", showMoreInfo)
+    })
+}
+
+
+function renderDogHtml(data) {
+    let dogShow = document.querySelector(`.card[data-dog-id="${data.id}"]`)
+    dogShow.innerHTML += `<p>Description: ${data.description}</p>
+                          <p>Status: ${data.status}</p>
+                        `
+
+}
+
+
+function renderDogsHtml(data) {
+    let dogsIndex = document.getElementById("dogs-list")
+
+    data.forEach((dog) => {
+        let newDog = new Dog(dog)
+        dogsIndex.innerHTML += 
+        `<div class="card" data-dog-id="${dog.id}">
+            <strong class="dog-name">${newDog.name}</strong>
+            <p>Age: ${newDog.age} years young</p>
+            <p>Sex: ${newDog.sex} </p> 
+        </div>`
+    });
+
+}
+
+
+
+ 
 
