@@ -1,3 +1,4 @@
+
 class Dog {
     constructor(data) {
         this.id = data.id
@@ -11,6 +12,34 @@ class Dog {
 
 }
 
+function renderNewDogForm() {
+    let newDogFormDiv = document.getElementById('new-dog-form')
+    newDogFormDiv.innerHTML = `
+    <form onsubmit="createDog(); return false;">
+    <label>Name: </label><br/>
+    <input type="text" id="name"><br/>
+
+    <label>Age:   </label><br/>
+    <input type="integer" id="age"><br/>  
+
+    <label>Sex:   </label><br/>
+    <input type="text" id="sex"><br/>  
+    
+    <label>Description: </label><br/>
+    <textarea id="description" rows="3" cols="20"></textarea><br/>
+
+    <label>Status: </label><br/>
+    <input type="text" id="status"><br/><br/>
+
+    <input type="submit" value="Add New Dog">
+    </form>
+    <br/>`
+
+}
+
+function createDog() {
+    debugger
+}
 function getDogs() {
     fetch("http://localhost:3000/api/v1/dogs")
     .then(resp => resp.json())
@@ -20,6 +49,7 @@ function getDogs() {
 
     })
 }
+
 
 function getDog(id) {
     fetch(`http://localhost:3000/api/v1/dogs/${id}`)
@@ -34,14 +64,17 @@ function getDog(id) {
 function showMoreInfo() {
     let dogId = parseInt(this.parentElement.dataset.dogId)
     getDog(dogId)
-
+   
 }
 
 function addDogsClickListeners() {
      document.querySelectorAll('.dog-name').forEach(element => {
         element.addEventListener("click", showMoreInfo)
     })
+
+    
 }
+
 
 
 function renderDogHtml(data) {

@@ -27,9 +27,13 @@ body {
     padding-bottom: 30px;
   } */
   
+  form input, textarea {
+    background-color: #eeeeee;
+
+  }
   div.card {
     background-color: #eeeeee;
-    height: 200px;
+    height: 250px;
     width: 800px;
     box-shadow: 10px 10px grey;
     padding: 10px;
