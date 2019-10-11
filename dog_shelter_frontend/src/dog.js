@@ -38,8 +38,31 @@ function renderNewDogForm() {
 }
 
 function createDog() {
-    debugger
+    const dog = {
+        name: document.getElementById('name').value,
+        age: document.getElementById('age').value,
+        sex: document.getElementById('sex').value,
+        description: document.getElementById('description').value,
+        status: document.getElementById('status').value,
+    }
+
+    console.log("new dog", dog)
+    console.log("json", JSON.stringify(dog)) 
+
+    fetch("http://localhost:3000/api/v1/dogs", {
+        method: 'POST',
+        body: JSON.stringify(dog),
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+    })
+    .then(resp => resp.json() )
+    .then(dog => {
+         console.log("dog", dog)
+         debugger
+      });
+    
 }
+
+
 function getDogs() {
     fetch("http://localhost:3000/api/v1/dogs")
     .then(resp => resp.json())

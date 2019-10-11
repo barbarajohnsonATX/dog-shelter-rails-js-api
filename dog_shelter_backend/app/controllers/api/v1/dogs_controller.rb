@@ -1,6 +1,7 @@
 class Api::V1::DogsController < ApplicationController
     before_action :find_dog, only: [:show, :edit, :update, :destroy]
 
+    
     def index
         @dogs = Dog.all 
         render json: @dogs 
