@@ -8,16 +8,14 @@ class Dog {
         this.description = data.description 
         this.status = data.status
     }
-
-
 }
 
-function renderNewDogForm() {
-    let newDogFormDiv = document.getElementById('new-dog-form')
-    newDogFormDiv.innerHTML = `
-    <form onsubmit="createDog(); return false;">
+function renderDogFormFields() {
+    return `
     <label>Name: </label><br/>
     <input type="text" id="name"><br/>
+
+    <input type="hidden" id="dogId">
 
     <label>Age:   </label><br/>
     <input type="integer" id="age"><br/>  
@@ -29,12 +27,28 @@ function renderNewDogForm() {
     <textarea id="description" rows="3" cols="20"></textarea><br/>
 
     <label>Status: </label><br/>
-    <input type="text" id="status"><br/><br/>
+    <input type="text" id="status"><br/><br/>`
 
-    <input type="submit" value="Add New Dog">
+}
+
+function renderNewDogForm() {
+    let newDogFormDiv = document.getElementById('dog-form')
+    newDogFormDiv.innerHTML = `
+    <form onsubmit="createDog(); return false;">` + 
+    renderDogFormFields() + 
+    `<input type="submit" value="Add New Dog">
     </form>
     <br/>`
+}
 
+function renderEditDogForm() {
+    let editDogFormDiv = document.getElementById('dog-form')
+    editDogFormDiv.innerHTML = `
+    <form onsubmit="updateDog(); return false;">` + 
+    renderDogFormFields() + 
+    `<input type="submit" value="Update Info">
+    </form>
+    <br/>`
 }
 
 function createDog() {
@@ -57,7 +71,9 @@ function createDog() {
     .then(resp => resp.json() )
     .then(dog => {
          console.log("dog", dog)
-         debugger
+         clearDogsHtml()
+         getDogs()
+         renderNewDogForm()
       });
     
 }
@@ -73,6 +89,28 @@ function getDogs() {
     })
 }
 
+function populateDogForm(id) {
+    console.log("in populateDogForm")
+    fetch(`http://localhost:3000/api/v1/dogs/${id}`)
+    .then(resp => resp.json())
+    .then(data => {
+        console.log('data', data)
+        renderEditDogForm()
+        let dogForm = document.getElementById('dog-form')
+        dogForm.querySelector('#name').value = data.name 
+        dogForm.querySelector('#dogId').value = data.id 
+        dogForm.querySelector('#sex').value = data.sex
+        dogForm.querySelector('#description').value = data.description
+        dogForm.querySelector('#age').value = data.age
+        dogForm.querySelector('#status').value = data.status
+        
+        
+    })
+
+    
+    
+    
+}
 
 function getDog(id) {
     fetch(`http://localhost:3000/api/v1/dogs/${id}`)
@@ -90,9 +128,50 @@ function showMoreInfo() {
    
 }
 
+function updateDog() {
+
+    console.log('update button clicked')
+    let dogId = this.event.target.dogId.value
+
+    const dog = {
+        name: document.getElementById('name').value,
+        age: document.getElementById('age').value,
+        sex: document.getElementById('sex').value,
+        description: document.getElementById('description').value,
+        status: document.getElementById('status').value,
+    }
+
+
+    fetch(`http://localhost:3000/api/v1/dogs/${dogId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(dog),
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+    })
+    .then(resp => resp.json() )
+    .then(dog => {
+         console.log("updated dog", dog)
+         clearDogsHtml()
+         getDogs()
+         renderNewDogForm()
+
+        });
+}
+
+
+function editDog() {
+    let dogId = this.parentElement.getAttribute('data-dog-id')
+    console.log("dogId", dogId)
+    populateDogForm(dogId)
+
+}
+
 function addDogsClickListeners() {
      document.querySelectorAll('.dog-name').forEach(element => {
         element.addEventListener("click", showMoreInfo)
+    })
+
+    document.querySelectorAll('.edit-dog-button').forEach(element => {
+        element.addEventListener("click", editDog)
     })
 
     
@@ -108,6 +187,10 @@ function renderDogHtml(data) {
 
 }
 
+function clearDogsHtml() {
+    let dogsIndex = document.getElementById("dogs-list")
+    dogsIndex.innerHTML = ''
+}
 
 function renderDogsHtml(data) {
     let dogsIndex = document.getElementById("dogs-list")
@@ -116,7 +199,9 @@ function renderDogsHtml(data) {
         let newDog = new Dog(dog)
         dogsIndex.innerHTML += 
         `<div class="card" data-dog-id="${dog.id}">
-            <strong class="dog-name">${newDog.name}</strong>
+            <button class="edit-dog-button">Edit Info</button>  <button class="delete-dog-button">Delete Dog</button>
+            </br></br>
+            <strong class="dog-name">${newDog.name}</strong> 
             <p>Age: ${newDog.age} years young</p>
             <p>Sex: ${newDog.sex} </p> 
         </div>`
