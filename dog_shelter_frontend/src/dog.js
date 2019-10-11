@@ -117,13 +117,16 @@ function getDog(id) {
     .then(resp => resp.json())
     .then(data => {
         console.log(data)
+        //clearDogHtml(id)
         renderDogHtml(data)
+        addDogsClickListeners()
 
     })
 }
 
 function showMoreInfo() {
     let dogId = parseInt(this.parentElement.dataset.dogId)
+    renderNewDogForm()
     getDog(dogId)
    
 }
@@ -181,15 +184,40 @@ function addDogsClickListeners() {
 
 function renderDogHtml(data) {
     let dogShow = document.querySelector(`.card[data-dog-id="${data.id}"]`)
-    dogShow.innerHTML += `<p>Description: ${data.description}</p>
-                          <p>Status: ${data.status}</p>
-                        `
+    let additionalInfo = dogShow.querySelector('.additional-info')
+    console.log("additional info", additionalInfo)
+    console.log("!!additional info", !!additionalInfo)
+
+    if (!!additionalInfo === false) {
+        dogShow.innerHTML += `<div class="additional-info">
+        <p>Description: ${data.description}</p>
+        <p>Status: ${data.status}</p>
+        </div>
+      `
+    } else {
+        additionalInfo.remove('additional-info')
+    }
+                       
 
 }
 
 function clearDogsHtml() {
     let dogsIndex = document.getElementById("dogs-list")
     dogsIndex.innerHTML = ''
+}
+
+function clearDogHtml(id) {
+     let dogShow = document.querySelector(`.card[data-dog-id="${id}"]`)
+      
+     let isAdditionalInfoDisplayed = dogShow.querySelector('.additional-info')
+        console.log("add info", isAdditionalInfoDisplayed)
+        console.log("!!add info", !!isAdditionalInfoDisplayed)
+
+        if (!!isAdditionalInfoDisplayed) {
+            isAdditionalInfoDisplayed.innerHTML = ''
+        }
+    //dogShow.innerHTML = ''
+
 }
 
 function renderDogsHtml(data) {
