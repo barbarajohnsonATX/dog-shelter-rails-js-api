@@ -117,15 +117,13 @@ function getDog(id) {
     .then(resp => resp.json())
     .then(data => {
         console.log(data)
-        //clearDogHtml(id)
         renderDogHtml(data)
         addDogsClickListeners()
 
     })
 }
 
-function showMoreInfo() {
-    let dogId = parseInt(this.parentElement.dataset.dogId)
+function showMoreInfo(dogId) {
     renderNewDogForm()
     getDog(dogId)
    
@@ -161,8 +159,7 @@ function updateDog() {
 }
 
 
-function editDog() {
-    let dogId = this.parentElement.getAttribute('data-dog-id')
+function editDog(dogId) {
     console.log("dogId", dogId)
     populateDogForm(dogId)
 
@@ -170,11 +167,18 @@ function editDog() {
 
 function addDogsClickListeners() {
      document.querySelectorAll('.dog-name').forEach(element => {
-        element.addEventListener("click", showMoreInfo)
+       element.addEventListener("click", e => {
+            e.preventDefault()   
+            showMoreInfo(e.target.parentElement.dataset.dogId )
+        })
+   
     })
 
     document.querySelectorAll('.edit-dog-button').forEach(element => {
-        element.addEventListener("click", editDog)
+        element.addEventListener("click", e => {
+            e.preventDefault() 
+            editDog(e.target.parentElement.dataset.dogId)
+        })
     })
 
     
@@ -185,8 +189,8 @@ function addDogsClickListeners() {
 function renderDogHtml(data) {
     let dogShow = document.querySelector(`.card[data-dog-id="${data.id}"]`)
     let additionalInfo = dogShow.querySelector('.additional-info')
-    console.log("additional info", additionalInfo)
-    console.log("!!additional info", !!additionalInfo)
+    // console.log("additional info", additionalInfo)
+    // console.log("!!additional info", !!additionalInfo)
 
     if (!!additionalInfo === false) {
         dogShow.innerHTML += `<div class="additional-info">
