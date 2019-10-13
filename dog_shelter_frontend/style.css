@@ -2,7 +2,6 @@ body {
     margin: 100;
     padding: 20;
     font-family: Helvetica;
-
   }
   
   header {
@@ -29,33 +28,33 @@ body {
   
   form input, textarea {
     background-color: #eeeeee;
+    font-size: 1.00em;
 
   }
   div.card {
     background-color: #eeeeee;
     /*height: 250px;*/
     /*width: 800px; */
-    box-shadow: 10px 10px grey;
-    padding: 10px;
-    border-radius: 10px;
+    box-shadow: 15px 10px grey;
+    padding: 5px;
+    border-radius: 5px;
     margin: 20px;
+    /* font-size: 1.00em; */
 
   }
+
+
   
-  /* p {
-    font-size: 1.5em;
-    color: black;
-    font-family: Helvetica;
-  } */
+
   
   li {
-    font-size: 1.05em;
+    font-size: 1.00em;
     list-style: none;
     padding-right: 20px;
   }
   
   button {
-    font-size: .65em;
+    font-size: 1.0em;
     color: #fff;
     background-color: green;
     /*border-radius: 10px;*/
@@ -66,14 +65,8 @@ body {
     background-color: #E1332D;
   }
   
-  @media only screen and (min-width: 500px) {
-    main {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
+
   
-  @media only screen and (min-width: 850px) {
-    main {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-  }
+  
+
+  

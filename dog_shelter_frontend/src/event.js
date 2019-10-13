@@ -18,9 +18,9 @@ function renderDogEventsHtml(events) {
         let newEvent = new Event(event)
         let date = parseTwitterDate(newEvent.updated_at)
         console.log("New Event", newEvent)
-        list += `<div event-id="${newEvent.id}">
-                </br>
-                <p>Last update: ${date}</p>
+        list += `
+                <div class="card" event-id="${newEvent.id}">
+                <i>Last update: ${date}</i>
                 <p><strong>Title: </strong>${newEvent.title} </p>
                 <p><strong>Description: </strong>${newEvent.description}</p>
                 </div>`
@@ -31,6 +31,7 @@ function renderDogEventsHtml(events) {
 }
 
 function viewDogEvents() {
+    renderNewDogForm()
     let dogId = this.parentElement.dataset.dogId
     console.log(dogId)
     let dogSelectedHtml = this.parentElement.querySelector('.events')
@@ -42,7 +43,8 @@ function viewDogEvents() {
     }
 
     console.log(dogSelectedHtml)
-    
-     
+
+
+
 
 }

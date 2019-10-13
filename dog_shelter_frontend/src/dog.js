@@ -14,20 +14,15 @@ function renderDogFormFields() {
     return `
     <label><strong>Name: </strong></label><br/>
     <input type="text" id="name"><br/>
-
     <input type="hidden" id="dogId">
-
     <label><strong>Age:   </strong></label><br/>
     <input type="integer" id="age"><br/>  
-
     <label>Sex:   </strong></label><br/>
     <input type="text" id="sex"><br/>  
     
     <label><strong>Description: </strong></label><br/>
     <textarea id="description" rows="3" cols="20"></textarea><br/>
-
     <label><strong>Status: </strong></label><br/>
-
     <input type="text" id="status"><br/><br/>`
 
 }
@@ -215,13 +210,18 @@ function renderDogHtml(data) {
     let additionalInfo = dogShow.querySelector('.additional-info')
     console.log("additional info", additionalInfo)
     console.log("!!additional info", !!additionalInfo)
-
+      
     if (!!additionalInfo === false) {
-        dogShow.innerHTML += `<div class="additional-info">     
-        <p>Description: ${data.description}</p>
-        <p>Status: ${data.status}</p>
-        </div>
-      `
+    //     dogShow.innerHTML += `<div class="additional-info">     
+    //     <p>Description: ${data.description}</p>
+    //     <p>Status: ${data.status}</p>
+    //     </div>
+    //   `
+        dogShow.lastElementChild.insertAdjacentHTML('beforebegin', 
+            `<div class="additional-info">     
+             <p>Description: ${data.description}</p>
+             <p>Status: ${data.status}</p>
+             </div>`)
       
     } else {
         additionalInfo.remove('additional-info')
@@ -251,20 +251,24 @@ function clearDogHtml(id) {
 
 function renderDogsHtml(data) {
     let dogsIndex = document.getElementById("dogs-list")
-    let eventsIndexHtml = document.createElement('div')
-    eventsIndexHtml.className = 'events'
-    eventsIndexHtml.style.display = 'none'
+
+
     data.forEach((dog) => {
         let newDog = new Dog(dog)
-        if (dog.events.length) {
-            console.log(dog.events)
-            eventsIndexHtml.innerHTML = renderDogEventsHtml(dog.events)
-            console.log("eventsIndexHtml", eventsIndexHtml)
-            
-        }
 
+        let eventsIndexHtml = document.createElement('div')
+        eventsIndexHtml.className = 'events'
+        eventsIndexHtml.style.display = 'none'
+        let emptyEventsHtml = eventsIndexHtml
+
+
+        console.log(dog.events)
+        eventsIndexHtml.innerHTML = renderDogEventsHtml(dog.events)
+        console.log("eventsIndexHtml", eventsIndexHtml)
+             
+   
         dogsIndex.innerHTML += 
-        `<div class="card" data-dog-id="${dog.id}">
+        `<div class="card" data-dog-id="${newDog.id}">
             <button class="view-events-dog-button" style="background-color:blue">View Record</button>  
             <button class="edit-dog-button">Edit Info</button>  
             <button class="delete-dog-button" style="background-color:red">Delete Dog</button>
@@ -272,11 +276,15 @@ function renderDogsHtml(data) {
             <strong class="dog-name">${newDog.name}</strong> 
             <p>Age: ${newDog.age} years young</p>
             <p>Sex: ${newDog.sex} </p> 
-
         </div>` 
         
+         
         if (eventsIndexHtml.childElementCount) 
-        { dogsIndex.lastChild.append(eventsIndexHtml) }
+        { 
+            document.querySelector(`.card[data-dog-id="${newDog.id}"]`).append(eventsIndexHtml)
+        } else {
+            document.querySelector(`.card[data-dog-id="${newDog.id}"]`).append(emptyEventsHtml)
+        }
 
         console.log("dogsIndex", dogsIndex)
         
@@ -285,7 +293,3 @@ function renderDogsHtml(data) {
        
 
 }
-
-
-
- 

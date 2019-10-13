@@ -2,7 +2,7 @@ class Api::V1::EventsController < ApplicationController
     before_action :find_event, only: [:show, :edit, :update, :destroy]
 
     def index
-        @events = Event.all 
+        @events = Event.all.order('updated_at DESC')
         render json: @events 
     end 
 
