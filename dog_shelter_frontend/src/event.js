@@ -8,6 +8,11 @@ class Event {
     }
 }
 
+function addEventsClickListeners() {
+    document.querySelectorAll('.view-events-dog-button').forEach(element => {
+        element.addEventListener('click', viewDogEvents)
+    })
+}
 
 function renderDogEventsHtml(events) {
     console.log(events)
@@ -20,9 +25,9 @@ function renderDogEventsHtml(events) {
         console.log("New Event", newEvent)
         list += `
                 <div class="card" event-id="${newEvent.id}">
-                <i>Last update: ${date}</i>
-                <p><strong>Title: </strong>${newEvent.title} </p>
-                <p><strong>Description: </strong>${newEvent.description}</p>
+                <i>Last update: </i>${date} <br/>
+                <strong>Title: </strong>${newEvent.title} <br/>
+                <strong>Description: </strong>${newEvent.description} <br/>
                 </div>`
     })
     dogEventsHtml = list

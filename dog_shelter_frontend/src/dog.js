@@ -74,14 +74,13 @@ function createDog() {
     
 }
 
-
 function getDogs() {
     fetch("http://localhost:3000/api/v1/dogs")
     .then(resp => resp.json())
     .then(data => {
         renderDogsHtml(data)
         addDogsClickListeners()
-
+        addEventsClickListeners()
     })
 }
 
@@ -196,9 +195,6 @@ function addDogsClickListeners() {
         element.addEventListener("click", deleteDog)
     })
     
-    document.querySelectorAll('.view-events-dog-button').forEach(element => {
-        element.addEventListener('click', viewDogEvents)
-    })
 }
 
 
@@ -219,8 +215,8 @@ function renderDogHtml(data) {
     //   `
         dogShow.lastElementChild.insertAdjacentHTML('beforebegin', 
             `<div class="additional-info">     
-             <p>Description: ${data.description}</p>
-             <p>Status: ${data.status}</p>
+             <strong>Description: </strong>${data.description}<br/>
+             <strong>Status: </strong>${data.status}<br/>
              </div>`)
       
     } else {
@@ -261,7 +257,6 @@ function renderDogsHtml(data) {
         eventsIndexHtml.style.display = 'none'
         let emptyEventsHtml = eventsIndexHtml
 
-
         console.log(dog.events)
         eventsIndexHtml.innerHTML = renderDogEventsHtml(dog.events)
         console.log("eventsIndexHtml", eventsIndexHtml)
@@ -273,9 +268,9 @@ function renderDogsHtml(data) {
             <button class="edit-dog-button">Edit Info</button>  
             <button class="delete-dog-button" style="background-color:red">Delete Dog</button>
             </br></br>
-            <strong class="dog-name">${newDog.name}</strong> 
-            <p>Age: ${newDog.age} years young</p>
-            <p>Sex: ${newDog.sex} </p> 
+            <strong class="dog-name">${newDog.name}</strong> <br/>
+            <strong>Age: </strong>${newDog.age} years young <br/>
+            <strong>Sex: </strong>${newDog.sex} <br/>
         </div>` 
         
          
