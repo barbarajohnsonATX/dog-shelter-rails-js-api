@@ -6,22 +6,28 @@ class Dog {
         this.age = data.age
         this.description = data.description 
         this.status = data.status
+        this.events = data.events
     }
 }
 
 function renderDogFormFields() {
     return `
-    <label>Name: </label><br/>
+    <label><strong>Name: </strong></label><br/>
     <input type="text" id="name"><br/>
+
     <input type="hidden" id="dogId">
-    <label>Age:   </label><br/>
+
+    <label><strong>Age:   </strong></label><br/>
     <input type="integer" id="age"><br/>  
-    <label>Sex:   </label><br/>
+
+    <label>Sex:   </strong></label><br/>
     <input type="text" id="sex"><br/>  
     
-    <label>Description: </label><br/>
+    <label><strong>Description: </strong></label><br/>
     <textarea id="description" rows="3" cols="20"></textarea><br/>
-    <label>Status: </label><br/>
+
+    <label><strong>Status: </strong></label><br/>
+
     <input type="text" id="status"><br/><br/>`
 
 }
@@ -193,24 +199,30 @@ function addDogsClickListeners() {
 
     document.querySelectorAll('.delete-dog-button').forEach(element => {
         element.addEventListener("click", deleteDog)
-      })
+    })
     
+    document.querySelectorAll('.view-events-dog-button').forEach(element => {
+        element.addEventListener('click', viewDogEvents)
+    })
 }
 
 
 
 function renderDogHtml(data) {
     let dogShow = document.querySelector(`.card[data-dog-id="${data.id}"]`)
+    console.log(dogShow)
+    
     let additionalInfo = dogShow.querySelector('.additional-info')
     console.log("additional info", additionalInfo)
     console.log("!!additional info", !!additionalInfo)
 
     if (!!additionalInfo === false) {
-        dogShow.innerHTML += `<div class="additional-info">
+        dogShow.innerHTML += `<div class="additional-info">     
         <p>Description: ${data.description}</p>
         <p>Status: ${data.status}</p>
         </div>
       `
+      
     } else {
         additionalInfo.remove('additional-info')
     }
@@ -239,18 +251,37 @@ function clearDogHtml(id) {
 
 function renderDogsHtml(data) {
     let dogsIndex = document.getElementById("dogs-list")
-
+    let eventsIndexHtml = document.createElement('div')
+    eventsIndexHtml.className = 'events'
     data.forEach((dog) => {
         let newDog = new Dog(dog)
+        if (dog.events.length) {
+            console.log(dog.events)
+            eventsIndexHtml.innerHTML = renderDogEventsHtml(dog.events)
+            console.log("eventsIndexHtml", eventsIndexHtml)
+            
+        }
+
         dogsIndex.innerHTML += 
         `<div class="card" data-dog-id="${dog.id}">
-            <button class="edit-dog-button">Edit Info</button>  <button class="delete-dog-button" style="background-color:red">Delete Dog</button>
+            <button class="view-events-dog-button" style="background-color:blue">View Record</button>  
+            <button class="edit-dog-button">Edit Info</button>  
+            <button class="delete-dog-button" style="background-color:red">Delete Dog</button>
             </br></br>
             <strong class="dog-name">${newDog.name}</strong> 
             <p>Age: ${newDog.age} years young</p>
             <p>Sex: ${newDog.sex} </p> 
-        </div>`
+
+        </div>` 
+        
+        if (eventsIndexHtml.childElementCount) 
+        { dogsIndex.lastChild.append(eventsIndexHtml) }
+
+        console.log("dogsIndex", dogsIndex)
+        
     });
+
+       
 
 }
 

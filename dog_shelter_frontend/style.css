@@ -54,7 +54,7 @@ body {
     padding-right: 20px;
   }
   
-  button, input {
+  button {
     font-size: .65em;
     color: #fff;
     background-color: green;
