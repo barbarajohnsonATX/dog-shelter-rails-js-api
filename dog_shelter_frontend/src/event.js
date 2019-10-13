@@ -35,6 +35,19 @@ function renderDogEventsHtml(events) {
     return(dogEventsHtml) 
 }
 
+function renderAddEventButton() {
+    debugger
+    let addEventButtonHtml = document.createElement('button')
+    addEventButtonHtml.className = "add-event-button"
+    addEventButtonHtml.innerText = "Add Event"
+    console.log(addEventButtonHtml)
+    let eventDivHtml = document.querySelector('.events')
+    eventDivHtml.appendChild(addEventButtonHtml)
+    console.log(eventDivHtml)
+     
+}     
+
+
 function viewDogEvents() {
     renderNewDogForm()
     let dogId = this.parentElement.dataset.dogId
@@ -47,9 +60,16 @@ function viewDogEvents() {
         dogSelectedHtml.style.display = "none"
     }
 
-    console.log(dogSelectedHtml)
+    console.log("dogSelectedHtml", dogSelectedHtml)
+    console.log("child elem. count dogSelectedHtml", dogSelectedHtml.childElementCount)
+    
+    // let addEventButton = document.createElement('button')
+    // addEventButton.className = "add-event-button"
+    // addEventButton.innerText = "Add Event"
+    // dogSelectedHtml.append(addEventButton)
+     
 
-
+ 
 
 
 }

@@ -260,7 +260,7 @@ function renderDogsHtml(data) {
         console.log(dog.events)
         eventsIndexHtml.innerHTML = renderDogEventsHtml(dog.events)
         console.log("eventsIndexHtml", eventsIndexHtml)
-             
+    
    
         dogsIndex.innerHTML += 
         `<div class="card" data-dog-id="${newDog.id}">
@@ -273,16 +273,23 @@ function renderDogsHtml(data) {
             <strong>Sex: </strong>${newDog.sex} <br/>
         </div>` 
         
-         
+         let selectedDogHtml = document.querySelector(`.card[data-dog-id="${newDog.id}"]`)
+         console.log(selectedDogHtml)
+           
         if (eventsIndexHtml.childElementCount) 
         { 
-            document.querySelector(`.card[data-dog-id="${newDog.id}"]`).append(eventsIndexHtml)
+            selectedDogHtml.append(eventsIndexHtml)
         } else {
-            document.querySelector(`.card[data-dog-id="${newDog.id}"]`).append(emptyEventsHtml)
+            selectedDogHtml.append(emptyEventsHtml)
         }
 
+        let addNewEventButton = document.createElement('button')
+        addNewEventButton.className = 'add-event-button'
+        addNewEventButton.innerText = "Add Event"
+        selectedDogHtml.querySelector('.events').appendChild(addNewEventButton)
+         
         console.log("dogsIndex", dogsIndex)
-        
+          
     });
 
        
