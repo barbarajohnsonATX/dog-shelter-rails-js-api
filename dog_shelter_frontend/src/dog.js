@@ -253,6 +253,7 @@ function renderDogsHtml(data) {
     let dogsIndex = document.getElementById("dogs-list")
     let eventsIndexHtml = document.createElement('div')
     eventsIndexHtml.className = 'events'
+    eventsIndexHtml.style.display = 'none'
     data.forEach((dog) => {
         let newDog = new Dog(dog)
         if (dog.events.length) {

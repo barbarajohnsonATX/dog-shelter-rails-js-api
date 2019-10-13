@@ -18,7 +18,7 @@ function renderDogEventsHtml(events) {
         let newEvent = new Event(event)
         let date = parseTwitterDate(newEvent.updated_at)
         console.log("New Event", newEvent)
-        list += `<div event-id="${newEvent.id}" >
+        list += `<div event-id="${newEvent.id}">
                 </br>
                 <p>Last update: ${date}</p>
                 <p><strong>Title: </strong>${newEvent.title} </p>
