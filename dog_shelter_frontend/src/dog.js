@@ -31,7 +31,7 @@ function renderNewDogForm() {
     newDogFormDiv.innerHTML = `
     <form onsubmit="createDog(); return false;">` + 
     renderDogFormFields() + 
-    `<input type="submit" value="Add New Dog">
+    `<input type="submit" value="Add New Dog" style="color:white;background-color:green">
     </form>
     <br/>`
 }

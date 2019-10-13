@@ -54,11 +54,11 @@ body {
     padding-right: 20px;
   }
   
-  button {
+  button, input {
     font-size: .65em;
     color: #fff;
     background-color: green;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
   }
   
   button.release {
