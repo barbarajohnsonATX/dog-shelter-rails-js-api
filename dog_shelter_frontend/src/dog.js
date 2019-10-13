@@ -1,4 +1,3 @@
-
 class Dog {
     constructor(data) {
         this.id = data.id
@@ -14,18 +13,14 @@ function renderDogFormFields() {
     return `
     <label>Name: </label><br/>
     <input type="text" id="name"><br/>
-
     <input type="hidden" id="dogId">
-
     <label>Age:   </label><br/>
     <input type="integer" id="age"><br/>  
-
     <label>Sex:   </label><br/>
     <input type="text" id="sex"><br/>  
     
     <label>Description: </label><br/>
     <textarea id="description" rows="3" cols="20"></textarea><br/>
-
     <label>Status: </label><br/>
     <input type="text" id="status"><br/><br/>`
 
@@ -117,13 +112,15 @@ function getDog(id) {
     .then(resp => resp.json())
     .then(data => {
         console.log(data)
+        //clearDogHtml(id)
         renderDogHtml(data)
         addDogsClickListeners()
 
     })
 }
 
-function showMoreInfo(dogId) {
+function showMoreInfo() {
+    let dogId = parseInt(this.parentElement.dataset.dogId)
     renderNewDogForm()
     getDog(dogId)
    
@@ -159,28 +156,44 @@ function updateDog() {
 }
 
 
-function editDog(dogId) {
+function editDog() {
+    let dogId = this.parentElement.getAttribute('data-dog-id')
     console.log("dogId", dogId)
     populateDogForm(dogId)
+}
+
+
+function deleteDog() {
+    let dogId = this.parentElement.getAttribute('data-dog-id')
+    console.log("request to delete", dogId)
+    
+
+    fetch(`http://localhost:3000/api/v1/dogs/${dogId}`, {
+        method: 'DELETE'
+      })
+      .then(resp => resp.json())
+      .then(json => {
+          console.log(json)
+          let selectedDog = document.querySelector(`.card[data-dog-id="${dogId}"]`) 
+          selectedDog.remove()
+      })
+
 
 }
 
+
 function addDogsClickListeners() {
      document.querySelectorAll('.dog-name').forEach(element => {
-       element.addEventListener("click", e => {
-            e.preventDefault()   
-            showMoreInfo(e.target.parentElement.dataset.dogId )
-        })
-   
+        element.addEventListener("click", showMoreInfo)
     })
 
     document.querySelectorAll('.edit-dog-button').forEach(element => {
-        element.addEventListener("click", e => {
-            e.preventDefault() 
-            editDog(e.target.parentElement.dataset.dogId)
-        })
+        element.addEventListener("click", editDog)
     })
 
+    document.querySelectorAll('.delete-dog-button').forEach(element => {
+        element.addEventListener("click", deleteDog)
+      })
     
 }
 
@@ -189,8 +202,8 @@ function addDogsClickListeners() {
 function renderDogHtml(data) {
     let dogShow = document.querySelector(`.card[data-dog-id="${data.id}"]`)
     let additionalInfo = dogShow.querySelector('.additional-info')
-    // console.log("additional info", additionalInfo)
-    // console.log("!!additional info", !!additionalInfo)
+    console.log("additional info", additionalInfo)
+    console.log("!!additional info", !!additionalInfo)
 
     if (!!additionalInfo === false) {
         dogShow.innerHTML += `<div class="additional-info">
@@ -231,7 +244,7 @@ function renderDogsHtml(data) {
         let newDog = new Dog(dog)
         dogsIndex.innerHTML += 
         `<div class="card" data-dog-id="${dog.id}">
-            <button class="edit-dog-button">Edit Info</button>  <button class="delete-dog-button">Delete Dog</button>
+            <button class="edit-dog-button">Edit Info</button>  <button class="delete-dog-button" style="background-color:red">Delete Dog</button>
             </br></br>
             <strong class="dog-name">${newDog.name}</strong> 
             <p>Age: ${newDog.age} years young</p>
@@ -244,4 +257,3 @@ function renderDogsHtml(data) {
 
 
  
-
