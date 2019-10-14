@@ -8,10 +8,41 @@ class Event {
     }
 }
 
+function renderNewEventForm() {
+      
+    console.log(this)
+    let dogId = this.getAttribute('id')
+    this.style.display = "none"
+    let eventsHtml = this.parentElement
+    console.log(eventsHtml)
+    let eventForm = document.createElement('form')
+    eventForm.setAttribute("onsubmit", "addEvent(); return false;")
+    eventForm.innerHTML = 
+    `<label><strong>Title: </strong></label><br/>
+    <input type="text" id="title"><br/>
+    <input type="hidden" id="dogId">
+    <label><strong>Description:   </strong></label><br/>
+    <input type="text" id="description"><br/>  
+
+    <input type="submit" value="Add New Event" style="color:white;background-color:green">
+    </form>` 
+
+    eventsHtml.appendChild(eventForm)
+      
+
+
+}
+
+
 function addEventsClickListeners() {
     document.querySelectorAll('.view-events-dog-button').forEach(element => {
         element.addEventListener('click', viewDogEvents)
     })
+
+    document.querySelectorAll('.add-event-button').forEach(element => {
+        element.addEventListener('click', renderNewEventForm)
+    })
+    
 }
 
 function renderDogEventsHtml(events) {
@@ -35,17 +66,7 @@ function renderDogEventsHtml(events) {
     return(dogEventsHtml) 
 }
 
-function renderAddEventButton() {
-    debugger
-    let addEventButtonHtml = document.createElement('button')
-    addEventButtonHtml.className = "add-event-button"
-    addEventButtonHtml.innerText = "Add Event"
-    console.log(addEventButtonHtml)
-    let eventDivHtml = document.querySelector('.events')
-    eventDivHtml.appendChild(addEventButtonHtml)
-    console.log(eventDivHtml)
-     
-}     
+f 
 
 
 function viewDogEvents() {
@@ -63,10 +84,7 @@ function viewDogEvents() {
     console.log("dogSelectedHtml", dogSelectedHtml)
     console.log("child elem. count dogSelectedHtml", dogSelectedHtml.childElementCount)
     
-    // let addEventButton = document.createElement('button')
-    // addEventButton.className = "add-event-button"
-    // addEventButton.innerText = "Add Event"
-    // dogSelectedHtml.append(addEventButton)
+  
      
 
  

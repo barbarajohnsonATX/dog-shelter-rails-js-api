@@ -285,6 +285,7 @@ function renderDogsHtml(data) {
 
         let addNewEventButton = document.createElement('button')
         addNewEventButton.className = 'add-event-button'
+        addNewEventButton.id = newDog.id 
         addNewEventButton.innerText = "Add Event"
         selectedDogHtml.querySelector('.events').appendChild(addNewEventButton)
          
