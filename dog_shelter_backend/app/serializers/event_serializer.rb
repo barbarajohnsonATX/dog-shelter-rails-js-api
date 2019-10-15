@@ -1,4 +1,4 @@
 class EventSerializer < ActiveModel::Serializer
   belongs_to :dog
-  attributes :id, :title, :description, :updated_at, :created_at
+  attributes :id, :dog_id, :title, :description, :updated_at, :created_at
 end

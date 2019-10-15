@@ -8,9 +8,34 @@ class Event {
     }
 }
 
+function addEvent() {
+    console.log("Submit new add event")
+     
+    const event = {
+        title: document.getElementById('title').value,
+        description: document.getElementById('event-description').value,
+        dog_id: document.getElementById('event-dogId').value 
+    }
+
+    console.log("new event", event)
+    console.log("json", JSON.stringify(event))
+    fetch("http://localhost:3000/api/v1/events", {
+        method: 'POST',
+        body: JSON.stringify(event),
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+    })
+    .then( resp => resp.json())
+    .then(event => {
+        debugger 
+         console.log("event", event)
+         getDogs()
+      });
+}
+
+
 function renderNewEventForm() {
       
-    console.log(this)
+   // console.log(this)
     let dogId = this.getAttribute('id')
     this.style.display = "none"
     let eventsHtml = this.parentElement
@@ -20,12 +45,12 @@ function renderNewEventForm() {
     eventForm.innerHTML = 
     `<label><strong>Title: </strong></label><br/>
     <input type="text" id="title"><br/>
-    <input type="hidden" id="dogId">
+    <input type="hidden" id="event-dogId" value="${dogId}">
     <label><strong>Description:   </strong></label><br/>
-    <input type="text" id="description"><br/>  
+    <input type="text" id="event-description"><br/>  
 
-    <input type="submit" value="Add New Event" style="color:white;background-color:green">
-    </form>` 
+    <input type="submit" value="Submit" style="color:white;background-color:orange">
+    ` 
 
     eventsHtml.appendChild(eventForm)
       
@@ -66,7 +91,6 @@ function renderDogEventsHtml(events) {
     return(dogEventsHtml) 
 }
 
-f 
 
 
 function viewDogEvents() {
