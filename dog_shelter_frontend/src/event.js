@@ -2,6 +2,7 @@ class Event {
     constructor(data) {
         this.id = data.id
         this.title = data.title 
+        this.dog_id = data.dog_id
         this.description = data.description
         this.updated_at = data.updated_at
         this.created_at = data.created_at
@@ -26,15 +27,16 @@ function addEvent() {
     })
     .then( resp => resp.json())
     .then(event => {
-        debugger 
+         
          console.log("event", event)
+         clearDogsHtml()
          getDogs()
       });
 }
 
 
 function renderNewEventForm() {
-      
+     
    // console.log(this)
     let dogId = this.getAttribute('id')
     this.style.display = "none"
@@ -68,6 +70,84 @@ function addEventsClickListeners() {
         element.addEventListener('click', renderNewEventForm)
     })
     
+    document.querySelectorAll('.edit-event-button').forEach(element => {
+        element.addEventListener("click", editEvent)
+    })
+}
+
+function updateEvent() {
+     debugger 
+    let eventId = this.event.target.parentElement.getAttribute('event-id')     
+    let event = {
+        title: document.getElementById('title').value,
+        description: document.getElementById('event-description').value,
+        dog_id: document.getElementById('event-dogId').value,
+    }
+    console.log("event", event)
+
+    
+
+    fetch(`http://localhost:3000/api/v1/events/${eventId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(event),
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+    })
+    .then(resp => resp.json() )
+    .then(dog => {
+         console.log("updated event", dog)
+         clearDogsHtml()
+         getDogs()
+         
+
+        });
+}
+
+
+function renderEventForm (dogId) {
+    console.log(dogId)
+    let eventForm = document.createElement('form')
+    eventForm.setAttribute("onsubmit", "updateEvent(); return false;")
+    eventForm.innerHTML = 
+    `<label><strong>Title: </strong></label><br/>
+    <input type="text" id="title"><br/>
+    <input type="hidden" id="event-dogId" value="${dogId}">
+    <label><strong>Description:   </strong></label><br/>
+    <input type="text" id="event-description"><br/>  
+
+    <input type="submit" value="Submit" style="color:white;background-color:orange">
+    `     
+
+    return eventForm 
+}
+
+
+
+
+function populateEventForm(data) { 
+    console.log("data", data)
+    let event = new Event(data)
+    console.log("event.dog_id", event.dog_id)
+    let eventForm = renderEventForm(event.dog_id)
+    eventForm.querySelector('#title').value = event.title 
+    eventForm.querySelector('#event-description').value = event.description 
+    eventForm.querySelector('#event-dogId').value = event.dog_id 
+    
+    
+    document.querySelector(`.card[event-id="${event.id}"]`).appendChild(eventForm)
+
+}
+
+function editEvent() { 
+    console.log(this)
+    let eventId = this.parentElement.getAttribute('event-id')
+    fetch(`http://localhost:3000/api/v1/events/${eventId}`)
+    .then(resp => resp.json())
+    .then(data => {
+        console.log('data', data)
+        populateEventForm(data)
+         
+    })
+
 }
 
 function renderDogEventsHtml(events) {
@@ -84,6 +164,7 @@ function renderDogEventsHtml(events) {
                 <i>Last update: </i>${date} <br/>
                 <strong>Title: </strong>${newEvent.title} <br/>
                 <strong>Description: </strong>${newEvent.description} <br/>
+                <button class="edit-event-button" style="background-color:yellow">Edit Record</button>  
                 </div>`
     })
     dogEventsHtml = list

@@ -40,7 +40,7 @@ class Api::V1::EventsController < ApplicationController
     end
 
     def find_event
-        @event = event.find(params[:id])
+        @event = Event.find(params[:id])
     end
 
 end
