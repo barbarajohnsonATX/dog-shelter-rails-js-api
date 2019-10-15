@@ -73,10 +73,30 @@ function addEventsClickListeners() {
     document.querySelectorAll('.edit-event-button').forEach(element => {
         element.addEventListener("click", editEvent)
     })
+
+    document.querySelectorAll('.delete-event-button').forEach(element => {
+        element.addEventListener("click", deleteEvent)
+    })
+
 }
 
-function updateEvent() {
-     debugger 
+function deleteEvent() {
+    let eventId = this.parentElement.getAttribute('event-id')
+
+    fetch(`http://localhost:3000/api/v1/events/${eventId}`, {
+        method: 'DELETE'
+      })
+      .then(resp => resp.json())
+      .then(json => {
+          console.log(json)
+          let selectedEvent = document.querySelector(`.card[event-id="${eventId}"]`) 
+          selectedEvent.remove()
+      })
+}
+
+
+
+function updateEvent() { 
     let eventId = this.event.target.parentElement.getAttribute('event-id')     
     let event = {
         title: document.getElementById('title').value,
@@ -164,7 +184,9 @@ function renderDogEventsHtml(events) {
                 <i>Last update: </i>${date} <br/>
                 <strong>Title: </strong>${newEvent.title} <br/>
                 <strong>Description: </strong>${newEvent.description} <br/>
-                <button class="edit-event-button" style="background-color:yellow">Edit Record</button>  
+                <button class="edit-event-button" style="background-color:orange">Edit Record</button>  
+                <button class="delete-event-button" style="background-color:red">Delete Record</button>  
+                
                 </div>`
     })
     dogEventsHtml = list

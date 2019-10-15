@@ -167,7 +167,6 @@ function deleteDog() {
     let dogId = this.parentElement.getAttribute('data-dog-id')
     console.log("request to delete", dogId)
     
-
     fetch(`http://localhost:3000/api/v1/dogs/${dogId}`, {
         method: 'DELETE'
       })
@@ -177,8 +176,6 @@ function deleteDog() {
           let selectedDog = document.querySelector(`.card[data-dog-id="${dogId}"]`) 
           selectedDog.remove()
       })
-
-
 }
 
 
