@@ -34,9 +34,18 @@ function addEvent() {
       });
 }
 
+function renderEventFormFields(dogId) {
+    return `<label><strong>Title: </strong></label><br/>
+    <input type="text" id="title"><br/>
+    <input type="hidden" id="event-dogId" value="${dogId}">
+    <label><strong>Description:   </strong></label><br/>
+    <input type="text" id="event-description"><br/>  
+    <input type="submit" value="Submit" style="color:white;background-color:orange">
+    `  
+}
+
 
 function renderNewEventForm() {
-     
    // console.log(this)
     let dogId = this.getAttribute('id')
     this.style.display = "none"
@@ -44,20 +53,8 @@ function renderNewEventForm() {
     console.log(eventsHtml)
     let eventForm = document.createElement('form')
     eventForm.setAttribute("onsubmit", "addEvent(); return false;")
-    eventForm.innerHTML = 
-    `<label><strong>Title: </strong></label><br/>
-    <input type="text" id="title"><br/>
-    <input type="hidden" id="event-dogId" value="${dogId}">
-    <label><strong>Description:   </strong></label><br/>
-    <input type="text" id="event-description"><br/>  
-
-    <input type="submit" value="Submit" style="color:white;background-color:orange">
-    ` 
-
+    eventForm.innerHTML = renderEventFormFields(dogId)
     eventsHtml.appendChild(eventForm)
-      
-
-
 }
 
 
@@ -113,33 +110,22 @@ function updateEvent() {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
     })
     .then(resp => resp.json() )
-    .then(dog => {
-         console.log("updated event", dog)
+    .then(data => {
+         console.log("updated event", data)
          clearDogsHtml()
          getDogs()  
-
     });
 }
+
 
 
 function renderEventForm (dogId) {
     console.log(dogId)
     let eventForm = document.createElement('form')
     eventForm.setAttribute("onsubmit", "updateEvent(); return false;")
-    eventForm.innerHTML = 
-    `<label><strong>Title: </strong></label><br/>
-    <input type="text" id="title"><br/>
-    <input type="hidden" id="event-dogId" value="${dogId}">
-    <label><strong>Description:   </strong></label><br/>
-    <input type="text" id="event-description"><br/>  
-
-    <input type="submit" value="Submit" style="color:white;background-color:orange">
-    `     
-
+    eventForm.innerHTML = renderEventFormFields(dogId)
     return eventForm 
 }
-
-
 
 
 function populateEventForm(data) { 
@@ -152,9 +138,7 @@ function populateEventForm(data) {
     eventForm.querySelector('#event-description').value = event.description 
     eventForm.querySelector('#event-dogId').value = event.dog_id 
     
-    
     document.querySelector(`.card[event-id="${event.id}"]`).appendChild(eventForm)
-
 }
 
 
@@ -200,27 +184,14 @@ function renderDogEventsHtml(events) {
 }
 
 
-
 function viewDogEvents() {
     renderNewDogForm()
-    let dogId = this.parentElement.dataset.dogId
-    console.log(dogId)
+    //let dogId = this.parentElement.dataset.dogId
+    //console.log(dogId)
     let dogSelectedHtml = this.parentElement.querySelector('.events')
     
     toggleHideDisplay(dogSelectedHtml)
-    // if (dogSelectedHtml.style.display === "none") {
-    //     dogSelectedHtml.style.display = "block"
-    // } else {
-    //     dogSelectedHtml.style.display = "none"
-    // }
 
-    console.log("dogSelectedHtml", dogSelectedHtml)
-    console.log("child elem. count dogSelectedHtml", dogSelectedHtml.childElementCount)
-    
-  
-     
-
- 
-
-
+    //console.log("dogSelectedHtml", dogSelectedHtml)
+    //console.log("child elem. count dogSelectedHtml", dogSelectedHtml.childElementCount)
 }
