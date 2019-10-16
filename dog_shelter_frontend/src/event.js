@@ -116,10 +116,9 @@ function updateEvent() {
     .then(dog => {
          console.log("updated event", dog)
          clearDogsHtml()
-         getDogs()
-         
+         getDogs()  
 
-        });
+    });
 }
 
 
@@ -144,6 +143,7 @@ function renderEventForm (dogId) {
 
 
 function populateEventForm(data) { 
+    
     console.log("data", data)
     let event = new Event(data)
     console.log("event.dog_id", event.dog_id)
@@ -157,8 +157,13 @@ function populateEventForm(data) {
 
 }
 
+
+
 function editEvent() { 
     console.log(this)
+ 
+    toggleHideDisplay(this)
+
     let eventId = this.parentElement.getAttribute('event-id')
     fetch(`http://localhost:3000/api/v1/events/${eventId}`)
     .then(resp => resp.json())
@@ -180,7 +185,7 @@ function renderDogEventsHtml(events) {
         let date = parseTwitterDate(newEvent.updated_at)
         console.log("New Event", newEvent)
         list += `
-                <div class="card" event-id="${newEvent.id}">
+                <div class="card" event-id="${newEvent.id}" >
                 <i>Last update: </i>${date} <br/>
                 <strong>Title: </strong>${newEvent.title} <br/>
                 <strong>Description: </strong>${newEvent.description} <br/>
@@ -202,11 +207,12 @@ function viewDogEvents() {
     console.log(dogId)
     let dogSelectedHtml = this.parentElement.querySelector('.events')
     
-    if (dogSelectedHtml.style.display === "none") {
-        dogSelectedHtml.style.display = "block"
-    } else {
-        dogSelectedHtml.style.display = "none"
-    }
+    toggleHideDisplay(dogSelectedHtml)
+    // if (dogSelectedHtml.style.display === "none") {
+    //     dogSelectedHtml.style.display = "block"
+    // } else {
+    //     dogSelectedHtml.style.display = "none"
+    // }
 
     console.log("dogSelectedHtml", dogSelectedHtml)
     console.log("child elem. count dogSelectedHtml", dogSelectedHtml.childElementCount)
