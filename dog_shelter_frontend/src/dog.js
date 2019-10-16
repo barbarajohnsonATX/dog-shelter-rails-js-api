@@ -6,7 +6,11 @@ class Dog {
         this.age = data.age
         this.description = data.description 
         this.status = data.status
-        this.events = data.events
+        //this.events = data.events
+        this.events = data.events.sort((a,b) => (a.updated_at < b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0)); 
+
+
+
     }
 }
 
@@ -262,7 +266,7 @@ function renderDogsHtml(data) {
         dogsIndex.innerHTML += 
         `<div class="card" data-dog-id="${newDog.id}">
             <button class="view-events-dog-button" style="background-color:blue">View Record</button>  
-            <button class="edit-dog-button">Edit Info</button>  
+            <button class="edit-dog-button" style="background-color:orange">Edit Info</button>  
             <button class="delete-dog-button" style="background-color:red">Delete Dog</button>
             </br></br>
             <strong class="dog-name">${newDog.name}</strong> <br/>
@@ -284,6 +288,7 @@ function renderDogsHtml(data) {
         addNewEventButton.className = 'add-event-button'
         addNewEventButton.id = newDog.id 
         addNewEventButton.innerText = "Add Event"
+        addNewEventButton.style.backgroundColor = "green"
         selectedDogHtml.querySelector('.events').appendChild(addNewEventButton)
          
         console.log("dogsIndex", dogsIndex)

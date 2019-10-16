@@ -3,7 +3,7 @@ class Api::V1::DogsController < ApplicationController
 
     
     def index
-        @dogs = Dog.all.order('updated_at DESC')
+        @dogs = Dog.all.order('name ASC')
         render json: @dogs 
     end 
 

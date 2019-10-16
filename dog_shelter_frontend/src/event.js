@@ -114,6 +114,7 @@ function updateEvent() {
          console.log("updated event", data)
          clearDogsHtml()
          getDogs()  
+         renderNewDogForm()
     });
 }
 
@@ -145,7 +146,6 @@ function populateEventForm(data) {
 
 function editEvent() { 
     console.log(this)
- 
     toggleHideDisplay(this)
 
     let eventId = this.parentElement.getAttribute('event-id')
@@ -186,12 +186,6 @@ function renderDogEventsHtml(events) {
 
 function viewDogEvents() {
     renderNewDogForm()
-    //let dogId = this.parentElement.dataset.dogId
-    //console.log(dogId)
     let dogSelectedHtml = this.parentElement.querySelector('.events')
-    
     toggleHideDisplay(dogSelectedHtml)
-
-    //console.log("dogSelectedHtml", dogSelectedHtml)
-    //console.log("child elem. count dogSelectedHtml", dogSelectedHtml.childElementCount)
 }
