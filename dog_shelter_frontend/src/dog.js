@@ -1,3 +1,17 @@
+const dogFormFields = `
+    <label><strong>Name: </strong></label><br/>
+    <input type="text" id="name"><br/>
+    <input type="hidden" id="dogId">
+    <label><strong>Age:   </strong></label><br/>
+    <input type="integer" id="age"><br/>  
+    <label>Sex:   </strong></label><br/>
+    <input type="text" id="sex"><br/>  
+
+    <label><strong>Description: </strong></label><br/>
+    <textarea id="description" rows="3" cols="20"></textarea><br/>
+    <label><strong>Status: </strong></label><br/>
+    <input type="text" id="status"><br/><br/>`
+
 class Dog {
     constructor(data) {
         this.id = data.id
@@ -8,48 +22,70 @@ class Dog {
         this.status = data.status
         //this.events = data.events
         this.events = data.events.sort((a,b) => (a.updated_at < b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0)); 
-
-
-
     }
-}
 
-function renderDogFormFields() {
-    return `
-    <label><strong>Name: </strong></label><br/>
-    <input type="text" id="name"><br/>
-    <input type="hidden" id="dogId">
-    <label><strong>Age:   </strong></label><br/>
-    <input type="integer" id="age"><br/>  
-    <label>Sex:   </strong></label><br/>
-    <input type="text" id="sex"><br/>  
+ 
     
-    <label><strong>Description: </strong></label><br/>
-    <textarea id="description" rows="3" cols="20"></textarea><br/>
-    <label><strong>Status: </strong></label><br/>
-    <input type="text" id="status"><br/><br/>`
+
+    static newDogForm() {
+        let newDogFormDiv = document.getElementById('dog-form')
+        newDogFormDiv.innerHTML = `
+        <form onsubmit="createDog(); return false;">` + 
+        dogFormFields + 
+        `<input type="submit" value="Add New Dog" style="color:white;background-color:green">
+        </form>
+        <br/>`
+    }
+    
+    static editDogForm() {
+        let editDogFormDiv = document.getElementById('dog-form')
+        editDogFormDiv.innerHTML = `
+        <form onsubmit="updateDog(); return false;">` + 
+        dogFormFields + 
+        `<input type="submit" value="Update Info">
+        </form>
+        <br/>`
+    }
+
 
 }
 
-function renderNewDogForm() {
-    let newDogFormDiv = document.getElementById('dog-form')
-    newDogFormDiv.innerHTML = `
-    <form onsubmit="createDog(); return false;">` + 
-    renderDogFormFields() + 
-    `<input type="submit" value="Add New Dog" style="color:white;background-color:green">
-    </form>
-    <br/>`
-}
+// function renderDogFormFields() {
+//     return `
+//     <label><strong>Name: </strong></label><br/>
+//     <input type="text" id="name"><br/>
+//     <input type="hidden" id="dogId">
+//     <label><strong>Age:   </strong></label><br/>
+//     <input type="integer" id="age"><br/>  
+//     <label>Sex:   </strong></label><br/>
+//     <input type="text" id="sex"><br/>  
+    
+//     <label><strong>Description: </strong></label><br/>
+//     <textarea id="description" rows="3" cols="20"></textarea><br/>
+//     <label><strong>Status: </strong></label><br/>
+//     <input type="text" id="status"><br/><br/>`
 
-function renderEditDogForm() {
-    let editDogFormDiv = document.getElementById('dog-form')
-    editDogFormDiv.innerHTML = `
-    <form onsubmit="updateDog(); return false;">` + 
-    renderDogFormFields() + 
-    `<input type="submit" value="Update Info">
-    </form>
-    <br/>`
-}
+// }
+
+// function renderNewDogForm() {
+//     let newDogFormDiv = document.getElementById('dog-form')
+//     newDogFormDiv.innerHTML = `
+//     <form onsubmit="createDog(); return false;">` + 
+//     renderDogFormFields() + 
+//     `<input type="submit" value="Add New Dog" style="color:white;background-color:green">
+//     </form>
+//     <br/>`
+// }
+
+// function renderEditDogForm() {
+//     let editDogFormDiv = document.getElementById('dog-form')
+//     editDogFormDiv.innerHTML = `
+//     <form onsubmit="updateDog(); return false;">` + 
+//     renderDogFormFields() + 
+//     `<input type="submit" value="Update Info">
+//     </form>
+//     <br/>`
+// }
 
 function createDog() {
     const dog = {
@@ -73,7 +109,9 @@ function createDog() {
          console.log("dog", dog)
          clearDogsHtml()
          getDogs()
-         renderNewDogForm()
+         //renderNewDogForm()
+         Dog.newDogForm()
+          
       });
     
 }
@@ -94,7 +132,8 @@ function populateDogForm(id) {
     .then(resp => resp.json())
     .then(data => {
         console.log('data', data)
-        renderEditDogForm()
+        //renderEditDogForm()
+        Dog.editDogForm()
         let dogForm = document.getElementById('dog-form')
         dogForm.querySelector('#name').value = data.name 
         dogForm.querySelector('#dogId').value = data.id 
@@ -125,7 +164,8 @@ function getDog(id) {
 
 function showMoreInfo() {
     let dogId = parseInt(this.parentElement.dataset.dogId)
-    renderNewDogForm()
+    //renderNewDogForm()
+    Dog.newDogForm()
     getDog(dogId)
    
 }
@@ -154,7 +194,8 @@ function updateDog() {
          console.log("updated dog", dog)
          clearDogsHtml()
          getDogs()
-         renderNewDogForm()
+         //renderNewDogForm()
+         Dog.newDogForm()
 
         });
 }
@@ -258,8 +299,11 @@ function renderDogsHtml(data) {
         eventsIndexHtml.style.display = 'none'
         let emptyEventsHtml = eventsIndexHtml
 
-        console.log(dog.events)
-        eventsIndexHtml.innerHTML = renderDogEventsHtml(dog.events)
+        //console.log(dog.events)
+        console.log("newDog.events", newDog.events)
+        //debugger 
+
+        eventsIndexHtml.innerHTML = renderDogEventsHtml(newDog.events)
         console.log("eventsIndexHtml", eventsIndexHtml)
     
    

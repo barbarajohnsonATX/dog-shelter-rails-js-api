@@ -7,6 +7,9 @@ class Event {
         this.updated_at = data.updated_at
         this.created_at = data.created_at
     }
+
+ 
+
 }
 
 function addEvent() {
@@ -114,7 +117,8 @@ function updateEvent() {
          console.log("updated event", data)
          clearDogsHtml()
          getDogs()  
-         renderNewDogForm()
+         //renderNewDogForm()
+         Dog.newDogForm()
     });
 }
 
@@ -185,7 +189,8 @@ function renderDogEventsHtml(events) {
 
 
 function viewDogEvents() {
-    renderNewDogForm()
+    //renderNewDogForm()
+    Dog.newDogForm()
     let dogSelectedHtml = this.parentElement.querySelector('.events')
     toggleHideDisplay(dogSelectedHtml)
 }

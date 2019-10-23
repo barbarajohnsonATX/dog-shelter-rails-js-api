@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    renderNewDogForm()
+    Dog.newDogForm()
+    //renderNewDogForm()
     getDogs();
 
  })
