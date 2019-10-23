@@ -287,24 +287,45 @@ function clearDogHtml(id) {
 
 }
 
+Dog.prototype.dogEventsHtml = function () {
+
+	let dogEvents = this.events.map(event => {
+        let date = parseTwitterDate(event.updated_at)
+
+        return (`
+        <div class="card" event-id="${event.id}" >
+        <i>Last update: </i>${date} <br/>
+        <strong>Title: </strong>${event.title} <br/>
+        <strong>Description: </strong>${event.description} <br/>
+        <button class="edit-event-button" style="background-color:orange">Edit Record</button>  
+        <button class="delete-event-button" style="background-color:red">Delete Record</button>  
+        </div>
+
+		`)
+    }).join('')
+    //debugger
+
+    return (dogEvents)
+}
+
+
+
 function renderDogsHtml(data) {
     let dogsIndex = document.getElementById("dogs-list")
 
 
     data.forEach((dog) => {
-        let newDog = new Dog(dog)
-
+  
         let eventsIndexHtml = document.createElement('div')
         eventsIndexHtml.className = 'events'
         eventsIndexHtml.style.display = 'none'
         let emptyEventsHtml = eventsIndexHtml
 
-        //console.log(dog.events)
-        console.log("newDog.events", newDog.events)
-        //debugger 
 
-        eventsIndexHtml.innerHTML = renderDogEventsHtml(newDog.events)
-        console.log("eventsIndexHtml", eventsIndexHtml)
+        let newDog = new Dog(dog)
+        eventsIndexHtml.innerHTML = newDog.dogEventsHtml() 
+
+        //console.log("eventsIndexHtml", eventsIndexHtml)
     
    
         dogsIndex.innerHTML += 
@@ -319,8 +340,9 @@ function renderDogsHtml(data) {
         </div>` 
         
          let selectedDogHtml = document.querySelector(`.card[data-dog-id="${newDog.id}"]`)
-         console.log(selectedDogHtml)
+         //console.log(selectedDogHtml)
            
+
         if (eventsIndexHtml.childElementCount) 
         { 
             selectedDogHtml.append(eventsIndexHtml)
@@ -335,10 +357,11 @@ function renderDogsHtml(data) {
         addNewEventButton.style.backgroundColor = "green"
         selectedDogHtml.querySelector('.events').appendChild(addNewEventButton)
          
-        console.log("dogsIndex", dogsIndex)
+        //console.log("dogsIndex", dogsIndex)
           
     });
 
+    
        
 
 }
