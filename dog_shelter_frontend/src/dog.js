@@ -46,28 +46,6 @@ class Dog {
         <br/>`
     }
 
-    
-    static additionalInfo(data) {
-        let dogShow = document.querySelector(`.card[data-dog-id="${data.id}"]`)
-        console.log(dogShow)
-        
-        let additionalInfo = dogShow.querySelector('.additional-info')
-        toggleHideDisplay(additionalInfo)
-
-        // console.log("additional info", additionalInfo)
-        // console.log("!!additional info", !!additionalInfo)
-          
-        // if (!!additionalInfo === false) {
-        //     dogShow.lastElementChild.insertAdjacentHTML('beforebegin', 
-        //         `<div class="additional-info">     
-        //          <strong>Description: </strong>${data.description}<br/>
-        //          <strong>Status: </strong>${data.status}<br/>
-        //          </div>`)
-          
-        // } else {
-        //     additionalInfo.remove('additional-info')
-        // }
-    }
 }
 
 
