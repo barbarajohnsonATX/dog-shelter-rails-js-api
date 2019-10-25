@@ -194,3 +194,5 @@ function viewDogEvents() {
     let dogSelectedHtml = this.parentElement.querySelector('.events')
     toggleHideDisplay(dogSelectedHtml)
 }
+
+ 
