@@ -85,13 +85,14 @@ function createDog() {
     
 }
 
-
+// Click on dog's name to view/hide additional info
 function showMoreInfo() {
     console.log("this", this)
     console.log(this.parentElement.querySelector('.additional-info'))
     toggleHideDisplay(this.parentElement.querySelector('.additional-info'))
 }
 
+// Issue a patch when the edit dog form is submitted
 function updateDog() {
     let dogId = this.event.target.dogId.value
 
@@ -117,7 +118,7 @@ function updateDog() {
         });
 }
 
-
+// Handler to render the edit dog form and populate it with current info
 function editDog() {
     let dogId = this.parentElement.getAttribute('data-dog-id')
 
@@ -136,7 +137,7 @@ function editDog() {
         })
 }
 
-
+// Handler to delete a dog
 function deleteDog() {
     let dogId = this.parentElement.getAttribute('data-dog-id')
     
