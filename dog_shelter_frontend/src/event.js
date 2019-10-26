@@ -64,6 +64,7 @@ function addEventsClickListeners() {
         element.addEventListener("click", editEvent)
     })
 
+
     document.querySelectorAll('.delete-event-button').forEach(element => {
         element.addEventListener("click", deleteEvent)
     })
@@ -87,11 +88,14 @@ function deleteEvent() {
 
 function updateEvent() { 
     let eventId = this.event.target.parentElement.getAttribute('event-id')     
-    let event = {
-        title: document.getElementById('title').value,
-        description: document.getElementById('event-description').value,
-        dog_id: document.getElementById('event-dogId').value,
-    }
+    let eventElement = document.querySelector(`.card[event-id="${eventId}"]`)
+        
+     let event = {
+         title: eventElement.querySelector('#title').value, 
+         description: eventElement.querySelector('#event-description').value, 
+         dog_id: eventElement.querySelector('#event-dogId').value,
+     }
+       
 
     fetch(`http://localhost:3000/api/v1/events/${eventId}`, {
         method: 'PATCH',
@@ -103,7 +107,8 @@ function updateEvent() {
          clearDogsHtml()
          getDogs()  
          Dog.newDogForm()
-    });
+    })
+  
 }
 
 
@@ -119,23 +124,26 @@ function renderEventForm (dogId) {
 function populateEventForm(data) { 
     let event = new Event(data)
     let eventForm = renderEventForm(event.dog_id)
+    
     eventForm.querySelector('#title').value = event.title 
     eventForm.querySelector('#event-description').value = event.description 
     eventForm.querySelector('#event-dogId').value = event.dog_id 
     document.querySelector(`.card[event-id="${event.id}"]`).appendChild(eventForm)
 }
 
-
+ 
 
 function editEvent() { 
     toggleHideDisplay(this)
 
     let eventId = this.parentElement.getAttribute('event-id')
+    console.log("eventId", eventId)
     fetch(`http://localhost:3000/api/v1/events/${eventId}`)
     .then(resp => resp.json())
     .then(data => {
+
         populateEventForm(data)
-         
+ 
     })
 
 }
