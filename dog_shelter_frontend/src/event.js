@@ -64,7 +64,6 @@ function addEventsClickListeners() {
         element.addEventListener("click", editEvent)
     })
 
-
     document.querySelectorAll('.delete-event-button').forEach(element => {
         element.addEventListener("click", deleteEvent)
     })
@@ -108,7 +107,6 @@ function updateEvent() {
          getDogs()  
          Dog.newDogForm()
     })
-  
 }
 
 

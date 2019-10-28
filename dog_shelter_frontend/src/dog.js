@@ -37,6 +37,7 @@ class Dog {
     }
     
     static editDogForm() {
+ 
         let editDogFormDiv = document.getElementById('dog-form')
         editDogFormDiv.innerHTML = `
         <form onsubmit="updateDog(); return false;">` + 
@@ -120,6 +121,8 @@ function updateDog() {
 
 // Handler to render the edit dog form and populate it with current info
 function editDog() {
+    console.log("this", this)
+    debugger
     let dogId = this.parentElement.getAttribute('data-dog-id')
 
     // Populate the dog form with dog's info
