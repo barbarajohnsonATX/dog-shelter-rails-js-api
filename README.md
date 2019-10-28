@@ -21,6 +21,7 @@ Navigate to the dog-shelter-rails-js-api/dog_shelter_frontend.
 Open the index.html file in the browser of your choice. 
 
 ## Usage
+* Click on Add New Dog to add a dog to track.
 * Click on the dog's name for detailed information. Click again to hide the details.
 * Click on Edit Info to update the dog's information.
 * Click on Delete Dog to remove the dog.
