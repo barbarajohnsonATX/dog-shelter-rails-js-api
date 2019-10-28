@@ -121,8 +121,6 @@ function updateDog() {
 
 // Handler to render the edit dog form and populate it with current info
 function editDog() {
-    console.log("this", this)
-    debugger
     let dogId = this.parentElement.getAttribute('data-dog-id')
 
     // Populate the dog form with dog's info
