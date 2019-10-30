@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    Dog.newDogForm()
     getDogs();
+    Dog.newDogForm()
  })
 
  function toggleHideDisplay(element) {

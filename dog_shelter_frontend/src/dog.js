@@ -178,7 +178,7 @@ function clearDogsHtml() {
 Dog.prototype.dogEventsHtml = function () {
 
 	let dogEvents = this.events.map(event => {
-        let date = parseTwitterDate(event.updated_at)
+        let date = parseDate(event.updated_at)
 
         return (`
         <div class="card" event-id="${event.id}" >

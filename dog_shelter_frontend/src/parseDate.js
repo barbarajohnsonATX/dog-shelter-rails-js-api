@@ -1,4 +1,4 @@
-function parseTwitterDate(tdate) {
+function parseDate(tdate) {
     var systemDate = new Date(Date.parse(tdate));
     var userDate = new Date();
     var diff = Math.floor((userDate - systemDate) / 1000);
