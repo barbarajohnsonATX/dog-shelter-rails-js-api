@@ -165,7 +165,26 @@ function addDogsClickListeners() {
     document.querySelectorAll('.delete-dog-button').forEach(element => {
         element.addEventListener("click", deleteDog)
     })
+
+    document.querySelector('.sort-button').addEventListener("click", sortDogs)
     
+}
+
+function sortDogs() { 
+
+    fetch("http://localhost:3000/api/v1/dogs")
+    .then(resp => resp.json())
+    .then(data => {
+
+        data.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)); 
+        console.log(data)
+        clearDogsHtml()
+        renderDogsHtml(data)
+        addDogsClickListeners()
+        addEventsClickListeners()
+    })
+
+
 }
 
 
@@ -229,7 +248,6 @@ Dog.prototype.addEventButton = function () {
 
 function renderDogsHtml(data) {
     let dogsIndex = document.getElementById("dogs-list")
-
 
     data.forEach((dog) => {
   
